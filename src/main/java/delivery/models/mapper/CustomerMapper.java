@@ -1,0 +1,48 @@
+package delivery.models.mapper;
+
+import delivery.models.Customer;
+import delivery.models.dto.CustomerDto;
+import org.springframework.stereotype.Component;
+
+
+@Component
+public class CustomerMapper {
+
+    public Customer mapFromDto(CustomerDto customerDto) {
+        var builder =  Customer.builder();
+        if(customerDto.firstName() != null){
+            builder.firstName(customerDto.firstName());
+        }
+        if(customerDto.lastName() != null){
+            builder.lastName(customerDto.lastName());
+        }
+        if(customerDto.age() != null){
+            builder.age(customerDto.age());
+        }
+        if(customerDto.weight() != null){
+            builder.weight(customerDto.weight());
+        }
+        if(customerDto.gender() != null){
+            builder.gender(customerDto.gender());
+        }
+        if(customerDto.height() != null){
+            builder.height(customerDto.height());
+        }
+        return builder.build();
+    }
+
+    public CustomerDto mapToDto(Customer customer) {
+        return CustomerDto.builder()
+                .id(customer.getId())
+                .userId(customer.getUser().getId())
+                .email(customer.getUser().getEmail())
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .age(customer.getAge())
+                .weight(customer.getWeight())
+                .gender(customer.getGender())
+                .height(customer.getHeight())
+                .build();
+    }
+
+}

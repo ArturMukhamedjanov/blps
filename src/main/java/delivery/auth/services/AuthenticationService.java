@@ -1,0 +1,100 @@
+package delivery.auth.services;
+
+import delivery.models.Clinic;
+import delivery.models.Customer;
+import delivery.models.Doctor;
+import delivery.repos.ClinicRepo;
+import delivery.repos.CustomerRepo;
+import delivery.repos.DoctorRepo;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import delivery.auth.AuthenticationRequest;
+import delivery.auth.AuthenticationResponse;
+import delivery.auth.RegisterRequest;
+import delivery.models.auth.Role;
+import delivery.models.auth.User;
+import delivery.models.auth.User.UserBuilder;
+import delivery.repos.UserRepo;
+import lombok.AllArgsConstructor;
+
+
+@Service
+@AllArgsConstructor
+public class AuthenticationService {
+    private final UserRepo userRepo;
+    private final CustomerRepo customerRepo;
+    private final ClinicRepo clinicRepo;
+    private final DoctorRepo doctorRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+
+    public AuthenticationResponse registerCustomer(RegisterRequest request, Customer customer) {
+        User user =  registerUser(request, Role.CUSTOMER);
+        String jwtToken = jwtService.generateToken(user);
+        customer.setUser(user);
+        customerRepo.save(customer);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .role(Role.CUSTOMER)
+                .build();
+    }
+
+   public AuthenticationResponse registerClinic(RegisterRequest request, Clinic clinic) {
+       User user = registerUser(request, Role.CLINIC);
+       String jwtToken = jwtService.generateToken(user);
+       clinic.setUser(user);
+       clinicRepo.save(clinic);
+       return AuthenticationResponse.builder()
+               .token(jwtToken)
+               .role(Role.CLINIC)
+               .build();
+    }
+
+    public AuthenticationResponse registerDoctor(RegisterRequest request, Doctor doctor) {
+        User user =  registerUser(request, Role.DOCTOR);
+        String jwtToken = jwtService.generateToken(user);
+        doctor.setUser(user);
+        doctorRepo.save(doctor);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .role(Role.DOCTOR)
+                .build();
+    }
+
+    public User registerUser(RegisterRequest request, Role role){
+        UserBuilder userBuilder = User.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(role);
+        User user = userBuilder.build();
+        user = userRepo.save(user);
+        return user;
+    }
+
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+        User user = userRepo.findByEmail(request.getEmail())
+                .orElseThrow(null);
+        String jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .role(user.getRole())
+                .build();
+    }
+
+    public User getCurrentUser(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepo.getUserByEmail(userDetails.getUsername());
+    }
+}
