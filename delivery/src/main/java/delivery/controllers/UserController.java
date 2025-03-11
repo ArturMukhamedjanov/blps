@@ -3,12 +3,12 @@ package delivery.controllers;
 import delivery.auth.AuthenticationRequest;
 import delivery.auth.RegisterRequest;
 import delivery.auth.services.AuthenticationService;
-import delivery.models.Clinic;
+import delivery.models.Seller;
 import delivery.models.Customer;
 import delivery.models.auth.Role;
-import delivery.models.dto.ClinicDto;
+import delivery.models.dto.SellerDto;
 import delivery.models.dto.CustomerDto;
-import delivery.models.mapper.ClinicMapper;
+import delivery.models.mapper.SellerMapper;
 import delivery.models.mapper.CustomerMapper;
 import delivery.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import javax.validation.Valid;
 public class UserController {
 
     private final CustomerMapper customerMapper;
-    private final ClinicMapper clinicMapper;
+    private final SellerMapper sellerMapper;
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
@@ -53,25 +53,25 @@ public class UserController {
         return ResponseEntity.ok(LoginResponse.builder().role(Role.CUSTOMER).build());
     }
 
-    @PostMapping("/register/clinic")
+    @PostMapping("/register/seller")
     public ResponseEntity<LoginResponse> registerClinic(
-            @Valid @RequestBody ClinicDto clinicDto,
+            @Valid @RequestBody SellerDto sellerDto,
             HttpServletResponse response
     ){
-        if(!validateClinic(clinicDto)){
+        if(!validateSeller(sellerDto)){
             return ResponseEntity.badRequest().body(null);
         }
-        if(userService.getUserByEmail(clinicDto.email()).isPresent()){
+        if(userService.getUserByEmail(sellerDto.email()).isPresent()){
             return ResponseEntity.badRequest().body(null);
         }
-        Clinic clinic = clinicMapper.mapFromDto(clinicDto);
+        Seller seller = sellerMapper.mapFromDto(sellerDto);
         var registerRequest = RegisterRequest.builder()
-                .email(clinicDto.email())
-                .password(clinicDto.password())
+                .email(sellerDto.email())
+                .password(sellerDto.password())
                 .build();
-        var authResponse = authenticationService.registerClinic(registerRequest, clinic);
+        var authResponse = authenticationService.registerSeller(registerRequest, seller);
         response.addCookie(createCookie(authResponse.getToken()));
-        return ResponseEntity.ok(LoginResponse.builder().role(Role.CLINIC).build());
+        return ResponseEntity.ok(LoginResponse.builder().role(Role.SELLER).build());
     }
 
     @PostMapping("/login")
@@ -87,14 +87,16 @@ public class UserController {
     private boolean validateCustomer(CustomerDto customerDto){
         return customerDto.email()!= null
                 && customerDto.password() != null
-                && customerDto.firstName() != null
-                && customerDto.lastName() != null;
+                && customerDto.x() != null
+                && customerDto.y() != null;
     }
 
-    private boolean validateClinic(ClinicDto clinicDto){
-        return clinicDto.email() != null
-                && clinicDto.password() != null
-                && clinicDto.name() != null;
+    private boolean validateSeller(SellerDto sellerDto){
+        return sellerDto.email() != null
+                && sellerDto.password() != null
+                && sellerDto.name() != null
+                && sellerDto.x() != null
+                && sellerDto.y() != null;
     }
 
     private Cookie createCookie(String token){

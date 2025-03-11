@@ -1,11 +1,11 @@
 package delivery.auth.services;
 
-import delivery.models.Clinic;
+import delivery.models.Seller;
 import delivery.models.Customer;
-import delivery.models.Doctor;
-import delivery.repos.ClinicRepo;
+import delivery.models.Deliverer;
+import delivery.repos.SellerRepo;
 import delivery.repos.CustomerRepo;
-import delivery.repos.DoctorRepo;
+import delivery.repos.DelivererRepo;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,8 +28,8 @@ import lombok.AllArgsConstructor;
 public class AuthenticationService {
     private final UserRepo userRepo;
     private final CustomerRepo customerRepo;
-    private final ClinicRepo clinicRepo;
-    private final DoctorRepo doctorRepo;
+    private final SellerRepo sellerRepo;
+    private final DelivererRepo delivererRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -45,25 +45,25 @@ public class AuthenticationService {
                 .build();
     }
 
-   public AuthenticationResponse registerClinic(RegisterRequest request, Clinic clinic) {
-       User user = registerUser(request, Role.CLINIC);
+   public AuthenticationResponse registerSeller(RegisterRequest request, Seller seller) {
+       User user = registerUser(request, Role.SELLER);
        String jwtToken = jwtService.generateToken(user);
-       clinic.setUser(user);
-       clinicRepo.save(clinic);
+       seller.setUser(user);
+       sellerRepo.save(seller);
        return AuthenticationResponse.builder()
                .token(jwtToken)
-               .role(Role.CLINIC)
+               .role(Role.SELLER)
                .build();
     }
 
-    public AuthenticationResponse registerDoctor(RegisterRequest request, Doctor doctor) {
-        User user =  registerUser(request, Role.DOCTOR);
+    public AuthenticationResponse registerDeliverer(RegisterRequest request, Deliverer deliverer) {
+        User user =  registerUser(request, Role.DELIVERER);
         String jwtToken = jwtService.generateToken(user);
-        doctor.setUser(user);
-        doctorRepo.save(doctor);
+        deliverer.setUser(user);
+        delivererRepo.save(deliverer);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .role(Role.DOCTOR)
+                .role(Role.DELIVERER)
                 .build();
     }
 

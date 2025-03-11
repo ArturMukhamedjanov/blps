@@ -1,0 +1,17 @@
+package delivery.models;
+
+public enum OrderStatus {
+    CREATED,
+    REJECTED_BY_SELLER,
+    ACCEPTED_BY_SELLER,
+    UPDATED_BY_SELLER,
+    PACKED,
+    SET_TO_DELIVERER,
+    REJECTED_BY_DELIVERER,
+    ACCEPTED_BY_DELIVERER,
+    RECEIVED_BY_DELIVERER,
+    DELIVERED,
+
+    ON_MODERATION
+
+}

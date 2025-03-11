@@ -1,19 +1,18 @@
 package delivery.models;
 
-import javax.persistence.*;
-
 import delivery.models.auth.User;
-
 import lombok.*;
 
+import javax.persistence.*;
+
 @Entity
-@Table(name = "customers")
+@Table(name = "sellers")
 @Getter
 @Setter
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
+public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,6 +20,9 @@ public class Customer {
     @OneToOne(optional = false)
     @JoinColumn(name = "_user")
     private User user;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "x", nullable = false)
     private double x;
