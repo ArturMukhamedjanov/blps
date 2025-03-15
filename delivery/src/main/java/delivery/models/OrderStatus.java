@@ -11,7 +11,5 @@ public enum OrderStatus {
     ACCEPTED_BY_DELIVERER,
     RECEIVED_BY_DELIVERER,
     DELIVERED,
-
     ON_MODERATION
-
 }

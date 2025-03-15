@@ -12,6 +12,7 @@ public record OrderDto(
     Long sellerId,
     Long delivererId,
     OrderStatus status,
-    List<ItemDto> items
+    List<ItemDto> items,
+    String description
 ) {
 }
