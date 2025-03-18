@@ -34,4 +34,7 @@ public class Order {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "seller_description")
+    private String sellerDescription;
 }

@@ -3,11 +3,14 @@ package delivery.controllers;
 import delivery.auth.AuthenticationRequest;
 import delivery.auth.RegisterRequest;
 import delivery.auth.services.AuthenticationService;
+import delivery.models.Deliverer;
 import delivery.models.Seller;
 import delivery.models.Customer;
 import delivery.models.auth.Role;
+import delivery.models.dto.DelivererDto;
 import delivery.models.dto.SellerDto;
 import delivery.models.dto.CustomerDto;
+import delivery.models.mapper.DelivererMapper;
 import delivery.models.mapper.SellerMapper;
 import delivery.models.mapper.CustomerMapper;
 import delivery.services.UserService;
@@ -29,6 +32,7 @@ public class UserController {
 
     private final CustomerMapper customerMapper;
     private final SellerMapper sellerMapper;
+    private final DelivererMapper delivererMapper;
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
@@ -74,6 +78,28 @@ public class UserController {
         return ResponseEntity.ok(LoginResponse.builder().role(Role.SELLER).build());
     }
 
+    @PostMapping("/register/deliverer")
+    public ResponseEntity<LoginResponse> registerDeliverer(
+            @Valid @RequestBody DelivererDto delivererDto,
+            HttpServletResponse response
+    ){
+        if(!validDeliverer(delivererDto)){
+            return ResponseEntity.badRequest().body(null);
+        }
+        if(userService.getUserByEmail(delivererDto.email()).isPresent()){
+            return ResponseEntity.badRequest().body(null);
+        }
+        Deliverer deliverer = delivererMapper.mapFromDto(delivererDto);
+        deliverer.setFree(true);
+        var registerRequest = RegisterRequest.builder()
+                .email(delivererDto.email())
+                .password(delivererDto.password())
+                .build();
+        var authResponse = authenticationService.registerDeliverer(registerRequest, deliverer);
+        response.addCookie(createCookie(authResponse.getToken()));
+        return ResponseEntity.ok(LoginResponse.builder().role(Role.SELLER).build());
+    }
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(
             @RequestBody AuthenticationRequest authenticationRequest,
@@ -97,6 +123,12 @@ public class UserController {
                 && sellerDto.name() != null
                 && sellerDto.x() != null
                 && sellerDto.y() != null;
+    }
+
+    private boolean validDeliverer(DelivererDto delivererDto){
+        return delivererDto.email() != null
+                && delivererDto.password() != null
+                && delivererDto.distance() != null;
     }
 
     private Cookie createCookie(String token){

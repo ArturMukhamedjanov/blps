@@ -1,5 +1,6 @@
 package delivery.repos;
 
+import delivery.models.Distance;
 import delivery.models.Seller;
 import delivery.models.Deliverer;
 import delivery.models.auth.User;
@@ -10,5 +11,5 @@ import java.util.Optional;
 
 public interface DelivererRepo extends JpaRepository<Deliverer, Long> {
     Optional<Deliverer> findDelivererByUser(User user);
-    List<Deliverer> getDeliverersByClinic(Seller seller);
+    List<Deliverer> getDeliverersByDistance(Distance distance);
 }

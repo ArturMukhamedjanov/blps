@@ -15,6 +15,8 @@ public class OrderMapper {
                 .sellerId(order.getSeller().getId())
                 .delivererId(order.getDeliverer().getId())
                 .status(order.getStatus())
+                .description(order.getDescription())
+                .sellerDescription(order.getSellerDescription())
                 .build();
     }
 
@@ -22,6 +24,8 @@ public class OrderMapper {
         return Order.builder()
                 .id(orderDto.id())
                 .status(orderDto.status())
+                .description(orderDto.description())
+                .sellerDescription(orderDto.sellerDescription())
                 .build();
     }
 

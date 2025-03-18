@@ -1,18 +1,21 @@
 package delivery.services;
 
-import delivery.models.Item;
-import delivery.models.ItemSellerPool;
-import delivery.models.Seller;
+import delivery.models.*;
 import delivery.models.dto.ItemDto;
+import delivery.repos.ItemOrderPoolRepo;
 import delivery.repos.ItemRepo;
 import delivery.repos.ItemSellerPoolRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -20,6 +23,7 @@ import java.util.Optional;
 public class ItemSellerPoolService {
 
     private final ItemSellerPoolRepo itemSellerPoolRepo;
+    private final ItemOrderPoolRepo itemOrderPoolRepo;
     private final ItemRepo itemRepo;
 
     public List<ItemSellerPool> getItemPoolsByItem(Item item) {
@@ -40,6 +44,16 @@ public class ItemSellerPoolService {
 
     public void delete(ItemSellerPool itemSellerPool) {
         itemSellerPoolRepo.delete(itemSellerPool);
+    }
+
+    public Optional<ItemSellerPool> addItemCount(ItemOrderPool itemOrderPool, Seller seller){
+        var itemSellerPoolOpt = findByItemAndSeller(itemOrderPool.getItem(), seller);
+        if(itemSellerPoolOpt.isEmpty()){
+            return Optional.empty();
+        }
+        var itemSellerPool = itemSellerPoolOpt.get();
+        itemSellerPool.setCount(itemSellerPool.getCount() + itemOrderPool.getCount());
+        return Optional.ofNullable(save(itemSellerPool));
     }
 
     @Transactional
@@ -66,6 +80,45 @@ public class ItemSellerPoolService {
             var itemSellerPool = itemSellerPoolOpt.get();
             itemSellerPool.setCount(itemSellerPoolOpt.get().getCount() - itemDto.count());
             itemSellerPoolRepo.save(itemSellerPool);
+        }
+        return true;
+    }
+
+    @Transactional
+    public boolean update(List<ItemDto> newItems, Seller seller,  Order order){
+        List<ItemOrderPool> itemsInOrder = itemOrderPoolRepo.getItemOrderPoolsByOrder(order);
+        for(var itemInOrder : itemsInOrder){
+            if(addItemCount(itemInOrder, seller).isEmpty()){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return false;
+            }
+        }
+        itemOrderPoolRepo.deleteByOrder(order);
+        var reduceItemResult = reduceItems(newItems, seller);
+        if(!reduceItemResult){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return false;
+        }
+        for(var itemDto : newItems){
+            if(itemDto.id() == null){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return false;
+            }
+            if(itemDto.count() == null){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return false;
+            }
+            var item = itemRepo.findById(itemDto.id());
+            if(item.isEmpty()){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return false;
+            }
+            var itemOrderPool = ItemOrderPool.builder()
+                    .order(order)
+                    .item(item.get())
+                    .count(itemDto.count())
+                    .build();
+            itemOrderPoolRepo.save(itemOrderPool);
         }
         return true;
     }

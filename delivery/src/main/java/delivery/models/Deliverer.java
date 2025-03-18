@@ -25,4 +25,7 @@ public class Deliverer {
     @Column(name = "distance", nullable = false)
     private Distance distance;
 
+    @Column(name = "is_free", nullable = false)
+    private boolean isFree;
+
 }

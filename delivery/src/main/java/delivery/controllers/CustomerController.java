@@ -80,7 +80,8 @@ public class CustomerController {
         }
         var orderBuilder = Order.builder()
                 .customer(customer.get())
-                .seller(seller.get());
+                .seller(seller.get())
+                .status(OrderStatus.CREATED);
         if(orderDtos.description() != null){
             orderBuilder.description(orderDtos.description());
         }

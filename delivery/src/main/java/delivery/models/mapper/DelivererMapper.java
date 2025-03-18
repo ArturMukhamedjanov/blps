@@ -19,6 +19,8 @@ public class DelivererMapper {
                 .id(deliverer.getId())
                 .userId(deliverer.getUser().getId())
                 .email(deliverer.getUser().getEmail())
+                .distance(deliverer.getDistance())
+                .isFree(deliverer.isFree())
                 .build();
     }
 }

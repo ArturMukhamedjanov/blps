@@ -1,8 +1,7 @@
 package delivery.controllers;
 
 import delivery.auth.services.AuthenticationService;
-import delivery.models.ItemSellerPool;
-import delivery.models.Seller;
+import delivery.models.*;
 import delivery.models.dto.*;
 import delivery.models.mapper.*;
 import delivery.services.*;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,6 +23,10 @@ public class SellerController {
     private final SellerService sellerService;
     private final ItemService itemService;
     private final ItemSellerPoolService itemSellerPoolService;
+    private final ItemOrderPoolService itemOrderPoolService;
+    private final OrderService orderService;
+    private final DelivererService delivererService;
+    private final OrderMapper orderMapper;
 
     private final SellerMapper sellerMapper;
     private final ItemMapper itemMapper;
@@ -99,6 +104,114 @@ public class SellerController {
         var newItemPool = itemSellerPoolService.save(itemPool.get());
         var result = itemMapper.mapToDto(newItemPool);
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("order/reject/{order_id}")
+    public ResponseEntity<Void> rejectOrder(@PathVariable("order_id") Long orderId){
+        var seller = sellerService.getSellerByUser(authenticationService.getCurrentUser());
+        var orderOpt = orderService.findById(orderId);
+        if(orderOpt.isEmpty() || orderOpt.get().getStatus() != OrderStatus.CREATED || seller.isEmpty() || orderOpt.get().getSeller() != seller.get()){
+            return ResponseEntity.notFound().build();
+        }
+        var order = orderOpt.get();
+        order.setStatus(OrderStatus.REJECTED_BY_SELLER);
+        orderService.save(order);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/order/accept/{order_id}")
+    public ResponseEntity<Void> acceptOrder(@PathVariable("order_id") Long orderId){
+        var seller = sellerService.getSellerByUser(authenticationService.getCurrentUser());
+        var orderOpt = orderService.findById(orderId);
+        if(orderOpt.isEmpty() || orderOpt.get().getStatus() != OrderStatus.CREATED || seller.isEmpty() || orderOpt.get().getSeller() != seller.get()){
+            return ResponseEntity.notFound().build();
+        }
+        var order = orderOpt.get();
+        order.setStatus(OrderStatus.ACCEPTED_BY_SELLER);
+        orderService.save(order);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/order/update/{order_id}")
+    public ResponseEntity<OrderDto> updateOrder(@PathVariable("order_id") Long orderId, @RequestBody OrderDto orderDto) {
+        var orderOpt = orderService.findById(orderId);
+        var user = authenticationService.getCurrentUser();
+        var seller = sellerService.getSellerByUser(user);
+        if(seller.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        if (orderOpt.isEmpty() || (orderOpt.get().getStatus() != OrderStatus.ACCEPTED_BY_SELLER && orderOpt.get().getStatus() != OrderStatus.CREATED)
+        ) {
+            return ResponseEntity.notFound().build();
+        }
+        var order = orderOpt.get();
+        if(orderDto.items() == null || orderDto.items().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        for(var itemDto : orderDto.items()){
+            if(itemDto.id() == null){
+                return ResponseEntity.badRequest().build();
+            }
+            if(itemDto.count() == null){
+                return ResponseEntity.badRequest().build();
+            }
+            var item = itemService.findItemById(itemDto.id());
+            if(item.isEmpty()){
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        if(!itemSellerPoolService.update(orderDto.items(), seller.get(), order)){
+            return ResponseEntity.badRequest().build();
+        }
+        if(orderDto.sellerDescription() != null){
+            order.setSellerDescription(orderDto.sellerDescription());
+        }
+        order.setStatus(OrderStatus.UPDATED_BY_SELLER);
+        order = orderService.save(order);
+        var newOrderDto = orderMapper.mapToDto(order).toBuilder().items(orderDto.items()).build();
+        return ResponseEntity.ok(newOrderDto);
+    }
+
+    @PostMapping("/order/pack/{order_id}")
+    public ResponseEntity<Void> packOrder(@PathVariable("order_id") Long orderId){
+        var orderOpt = orderService.findById(orderId);
+        if(orderOpt.isEmpty() || (orderOpt.get().getStatus() != OrderStatus.UPDATED_BY_SELLER && orderOpt.get().getStatus() != OrderStatus.ACCEPTED_BY_SELLER) ){
+            return ResponseEntity.notFound().build();
+        }
+        var order = orderOpt.get();
+        order.setStatus(OrderStatus.PACKED);
+        var deliverer = setDeliverer(order);
+        if(setDeliverer(order).isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        order.setDeliverer(deliverer.get());
+        order.setStatus(OrderStatus.SET_TO_DELIVERER);
+        orderService.save(order);
+        return ResponseEntity.ok().build();
+    }
+
+    private Optional<Deliverer> setDeliverer(Order order) {
+        var startX = order.getSeller().getX();
+        var startY = order.getSeller().getY();
+        var endX = order.getCustomer().getX();
+        var endY = order.getCustomer().getY();
+        var distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+        var deliverers = new ArrayList<Deliverer>();
+        if(distance < 100){
+            deliverers.addAll(delivererService.getDeliverersByDistance(Distance.SHORT));
+        }
+        if(distance < 200){
+            deliverers.addAll(delivererService.getDeliverersByDistance(Distance.MEDIUM));
+        }
+        deliverers.addAll(delivererService.getDeliverersByDistance(Distance.LONG));
+        for(var deliverer : deliverers){
+            if(deliverer.isFree()){
+                deliverer.setFree(false);
+                delivererService.saveDeliverer(deliverer);
+                return Optional.of(deliverer);
+            }
+        }
+        return Optional.empty();
     }
 
     public Seller mergeSellers(Seller oldSeller, SellerDto newSeller) {
