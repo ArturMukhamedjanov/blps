@@ -97,7 +97,7 @@ public class UserController {
                 .build();
         var authResponse = authenticationService.registerDeliverer(registerRequest, deliverer);
         response.addCookie(createCookie(authResponse.getToken()));
-        return ResponseEntity.ok(LoginResponse.builder().role(Role.SELLER).build());
+        return ResponseEntity.ok(LoginResponse.builder().role(Role.DELIVERER).build());
     }
 
     @PostMapping("/login")

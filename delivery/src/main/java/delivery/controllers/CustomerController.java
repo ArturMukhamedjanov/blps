@@ -2,23 +2,14 @@ package delivery.controllers;
 
 import delivery.auth.services.AuthenticationService;
 import delivery.models.*;
-import delivery.models.auth.Role;
 import delivery.models.dto.*;
 import delivery.models.mapper.*;
-import delivery.repos.ItemSellerPoolRepo;
 import delivery.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/customer")
 @RequiredArgsConstructor

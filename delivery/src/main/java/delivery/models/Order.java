@@ -4,8 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+@ToString
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Getter
 @Setter
 @Builder(toBuilder = true)
@@ -22,7 +23,7 @@ public class Order {
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "seller_id")
     private Seller seller;
 
     @ManyToOne

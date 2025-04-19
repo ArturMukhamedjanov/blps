@@ -68,7 +68,7 @@ public class SellerController {
         if(seller.isEmpty()){
             return ResponseEntity.notFound().build();
         }
-        if(validateItem(itemDto)){
+        if(!validateItem(itemDto)){
             return ResponseEntity.badRequest().build();
         }
         var itemPool = ItemSellerPool.builder()
@@ -92,7 +92,7 @@ public class SellerController {
         if(seller.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        if(validateItem(itemDto)){
+        if(!validateItem(itemDto)){
             return ResponseEntity.badRequest().build();
         }
         var itemPool = itemSellerPoolService.findByItemAndSeller(item.get(), seller.get());
@@ -176,12 +176,13 @@ public class SellerController {
     public ResponseEntity<Void> packOrder(@PathVariable("order_id") Long orderId){
         var orderOpt = orderService.findById(orderId);
         if(orderOpt.isEmpty() || (orderOpt.get().getStatus() != OrderStatus.UPDATED_BY_SELLER && orderOpt.get().getStatus() != OrderStatus.ACCEPTED_BY_SELLER) ){
+            System.out.println("Rejected not right status:" + orderOpt);
             return ResponseEntity.notFound().build();
         }
         var order = orderOpt.get();
         order.setStatus(OrderStatus.PACKED);
         var deliverer = setDeliverer(order);
-        if(setDeliverer(order).isEmpty()){
+        if(deliverer.isEmpty()){
             return ResponseEntity.notFound().build();
         }
         order.setDeliverer(deliverer.get());
@@ -196,14 +197,18 @@ public class SellerController {
         var endX = order.getCustomer().getX();
         var endY = order.getCustomer().getY();
         var distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+        System.out.println("Counted distance: " + distance);
         var deliverers = new ArrayList<Deliverer>();
         if(distance < 100){
             deliverers.addAll(delivererService.getDeliverersByDistance(Distance.SHORT));
+            System.out.println(deliverers.size());
         }
         if(distance < 200){
             deliverers.addAll(delivererService.getDeliverersByDistance(Distance.MEDIUM));
+            System.out.println(deliverers.size());
         }
         deliverers.addAll(delivererService.getDeliverersByDistance(Distance.LONG));
+        System.out.println(deliverers.size());
         for(var deliverer : deliverers){
             if(deliverer.isFree()){
                 deliverer.setFree(false);

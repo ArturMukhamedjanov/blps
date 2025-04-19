@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import delivery.models.Item;
 import delivery.models.dto.*;
-import delivery.models.mapper.*;
-import delivery.services.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +51,6 @@ public class ItemController {
         return ResponseEntity.ok(res);
     }
 
-    // Обновление информации о товаре
     @PutMapping("/{id}")
     public ResponseEntity<ItemDto> updateItem(@PathVariable Long id, @RequestBody ItemDto itemDto) {
         var item = itemService.findItemById(id);

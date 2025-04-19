@@ -26,23 +26,23 @@ public class OrderService {
     }
 
     public List<Order> getOrdersByDeliverer(Deliverer deliverer) {
-        return orderRepo.getOrdersDeliverer(deliverer);
+        return orderRepo.getOrdersByDeliverer(deliverer);
     }
 
     public List<Order> getOrdersByCustomerAndSeller(Customer customer, Seller seller) {
-        return orderRepo.getOrdersCustomerAndSeller(customer, seller);
+        return orderRepo.getOrdersByCustomerAndSeller(customer, seller);
     }
 
     public List<Order> getOrdersByCustomerAndDeliverer(Customer customer, Deliverer deliverer) {
-        return orderRepo.getOrdersCustomerAndDeliverer(customer, deliverer);
+        return orderRepo.getOrdersByCustomerAndDeliverer(customer, deliverer);
     }
 
     public List<Order> getOrdersBySellerAndDeliverer(Seller seller, Deliverer deliverer) {
-        return orderRepo.getOrdersSellerAndDeliverer(seller, deliverer);
+        return orderRepo.getOrdersBySellerAndDeliverer(seller, deliverer);
     }
 
     public List<Order> getOrdersByCustomerSellerAndDeliverer(Customer customer, Seller seller, Deliverer deliverer) {
-        return orderRepo.getOrdersCustomerAndSellerAndDeliverer(customer, seller, deliverer);
+        return orderRepo.getOrdersByCustomerAndSellerAndDeliverer(customer, seller, deliverer);
     }
 
     public Order save(Order order) {

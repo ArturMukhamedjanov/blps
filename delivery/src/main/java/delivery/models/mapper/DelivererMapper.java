@@ -10,6 +10,7 @@ public class DelivererMapper {
     // Преобразование из DTO в модель Deliverer
     public Deliverer mapFromDto(DelivererDto dto) {
         var builder = Deliverer.builder();
+        builder.distance(dto.distance());
         return builder.build();
     }
 
