@@ -71,6 +71,9 @@ public class SellerController {
         if(!validateItem(itemDto)){
             return ResponseEntity.badRequest().build();
         }
+        if(itemSellerPoolService.findByItemAndSeller(item.get(), seller.get()).isPresent()){
+            return ResponseEntity.badRequest().build();
+        }
         var itemPool = ItemSellerPool.builder()
                 .item(item.get())
                 .seller(seller.get())

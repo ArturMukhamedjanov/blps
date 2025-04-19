@@ -2,7 +2,9 @@ package delivery.controllers;
 
 import delivery.auth.services.AuthenticationService;
 import delivery.models.mapper.ItemMapper;
+import delivery.services.ItemSellerPoolService;
 import delivery.services.ItemService;
+import delivery.services.SellerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,8 @@ public class ItemController {
 
     private final AuthenticationService authenticationService;
     private final ItemService itemService;
+    private final SellerService sellerService;
+    private final ItemSellerPoolService itemSellerPoolService;
     private final ItemMapper itemMapper;
 
     @GetMapping("/{id}")
@@ -30,6 +34,17 @@ public class ItemController {
         }
         var itemDto = itemMapper.mapToDto(item.get());
         return ResponseEntity.ok(itemDto);
+    }
+
+    @GetMapping("/seller/{id}")
+    public ResponseEntity<List<ItemDto>> getSellersItem(@PathVariable Long id){
+        var seller = sellerService.getSellerById(id);
+        if(seller.isEmpty()){
+            return  ResponseEntity.notFound().build();
+        }
+        var items = itemSellerPoolService.getItemPoolsBySeller(seller.get());
+        var itemsDto = items.stream().map(v -> itemMapper.mapToDto(v)).toList();
+        return ResponseEntity.ok(itemsDto);
     }
 
     @GetMapping()
