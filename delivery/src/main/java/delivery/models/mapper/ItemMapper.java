@@ -1,8 +1,8 @@
 package delivery.models.mapper;
 
-import delivery.models.Item;
-import delivery.models.ItemOrderPool;
-import delivery.models.ItemSellerPool;
+import delivery.models.items.Item;
+import delivery.models.orders.ItemOrderPool;
+import delivery.models.items.ItemSellerPool;
 import delivery.models.dto.ItemDto;
 import org.springframework.stereotype.Component;
 

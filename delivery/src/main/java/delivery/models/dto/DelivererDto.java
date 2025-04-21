@@ -1,6 +1,6 @@
 package delivery.models.dto;
 
-import delivery.models.Distance;
+import delivery.models.orders.Distance;
 import lombok.Builder;
 
 @Builder(toBuilder = true)

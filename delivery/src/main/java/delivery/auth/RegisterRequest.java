@@ -2,15 +2,12 @@
 package delivery.auth;
 
 
-import delivery.models.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-
-import java.util.Optional;
 
 @Data
 @Builder

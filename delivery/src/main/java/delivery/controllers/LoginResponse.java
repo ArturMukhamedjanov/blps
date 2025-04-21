@@ -1,6 +1,6 @@
 package delivery.controllers;
 
-import delivery.models.auth.Role;
+import delivery.models.orders.auth.Role;
 import lombok.Builder;
 
 @Builder(toBuilder = true)

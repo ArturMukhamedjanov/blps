@@ -1,7 +1,7 @@
 package delivery.services;
 
-import delivery.models.Item;
-import delivery.repos.ItemRepo;
+import delivery.models.items.Item;
+import delivery.repositories.items.ItemRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

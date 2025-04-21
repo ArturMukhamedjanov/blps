@@ -1,9 +1,9 @@
 package delivery.services;
 
-import delivery.models.Deliverer;
-import delivery.models.Distance;
-import delivery.models.auth.User;
-import delivery.repos.DelivererRepo;
+import delivery.models.orders.Deliverer;
+import delivery.models.orders.Distance;
+import delivery.models.orders.auth.User;
+import delivery.repositories.orders.DelivererRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

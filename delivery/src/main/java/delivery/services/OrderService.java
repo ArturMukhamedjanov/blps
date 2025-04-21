@@ -1,10 +1,10 @@
 package delivery.services;
 
-import delivery.models.Customer;
-import delivery.models.Deliverer;
-import delivery.models.Order;
-import delivery.models.Seller;
-import delivery.repos.OrderRepo;
+import delivery.models.orders.Customer;
+import delivery.models.orders.Deliverer;
+import delivery.models.orders.Order;
+import delivery.models.orders.Seller;
+import delivery.repositories.orders.OrderRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

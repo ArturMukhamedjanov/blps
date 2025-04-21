@@ -1,6 +1,6 @@
 package delivery.models.dto;
 
-import delivery.models.OrderStatus;
+import delivery.models.orders.OrderStatus;
 import lombok.Builder;
 
 import java.util.List;

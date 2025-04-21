@@ -1,6 +1,6 @@
 package delivery.auth;
 
- import delivery.models.auth.Role;
+ import delivery.models.orders.auth.Role;
  import lombok.AllArgsConstructor;
  import lombok.Builder;
  import lombok.Data;

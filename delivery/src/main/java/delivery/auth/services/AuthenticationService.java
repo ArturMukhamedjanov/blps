@@ -1,11 +1,11 @@
 package delivery.auth.services;
 
-import delivery.models.Seller;
-import delivery.models.Customer;
-import delivery.models.Deliverer;
-import delivery.repos.SellerRepo;
-import delivery.repos.CustomerRepo;
-import delivery.repos.DelivererRepo;
+import delivery.models.orders.Seller;
+import delivery.models.orders.Customer;
+import delivery.models.orders.Deliverer;
+import delivery.repositories.orders.SellerRepo;
+import delivery.repositories.orders.CustomerRepo;
+import delivery.repositories.orders.DelivererRepo;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 import delivery.auth.AuthenticationRequest;
 import delivery.auth.AuthenticationResponse;
 import delivery.auth.RegisterRequest;
-import delivery.models.auth.Role;
-import delivery.models.auth.User;
-import delivery.models.auth.User.UserBuilder;
-import delivery.repos.UserRepo;
+import delivery.models.orders.auth.Role;
+import delivery.models.orders.auth.User;
+import delivery.models.orders.auth.User.UserBuilder;
+import delivery.repositories.orders.UserRepo;
 import lombok.AllArgsConstructor;
 
 

@@ -1,8 +1,8 @@
 package delivery.services;
 
-import delivery.models.Customer;
-import delivery.models.auth.User;
-import delivery.repos.CustomerRepo;
+import delivery.models.orders.Customer;
+import delivery.models.orders.auth.User;
+import delivery.repositories.orders.CustomerRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package delivery.models.mapper;
 
-import delivery.models.Deliverer;
+import delivery.models.orders.Deliverer;
 import delivery.models.dto.DelivererDto;
 import org.springframework.stereotype.Component;
 

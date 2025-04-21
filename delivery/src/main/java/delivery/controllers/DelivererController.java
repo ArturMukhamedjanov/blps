@@ -1,10 +1,10 @@
 package delivery.controllers;
 
 import delivery.auth.services.AuthenticationService;
-import delivery.models.Deliverer;
-import delivery.models.Distance;
-import delivery.models.Order;
-import delivery.models.OrderStatus;
+import delivery.models.orders.Deliverer;
+import delivery.models.orders.Distance;
+import delivery.models.orders.Order;
+import delivery.models.orders.OrderStatus;
 import delivery.models.dto.*;
 import delivery.models.mapper.*;
 import delivery.services.*;

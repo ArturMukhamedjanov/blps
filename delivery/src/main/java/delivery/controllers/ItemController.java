@@ -8,7 +8,7 @@ import delivery.services.SellerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import delivery.models.Item;
+import delivery.models.items.Item;
 import delivery.models.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -14,7 +14,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
-import delivery.repos.UserRepo;
+import delivery.repositories.orders.UserRepo;
 import lombok.AllArgsConstructor;
 
 @Configuration
