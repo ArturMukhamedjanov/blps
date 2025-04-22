@@ -15,15 +15,15 @@ import delivery.models.mapper.SellerMapper;
 import delivery.models.mapper.CustomerMapper;
 import delivery.services.UserService;
 import lombok.RequiredArgsConstructor;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")

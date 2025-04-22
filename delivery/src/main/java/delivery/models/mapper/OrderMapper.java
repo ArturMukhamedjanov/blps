@@ -15,7 +15,8 @@ public class OrderMapper {
                 .sellerId(order.getSeller().getId())
                 .status(order.getStatus())
                 .description(order.getDescription())
-                .sellerDescription(order.getSellerDescription());
+                .sellerDescription(order.getSellerDescription())
+                .tips(order.getTips());
         if(order.getDeliverer() != null){
             builder.delivererId(order.getDeliverer().getId());
         }

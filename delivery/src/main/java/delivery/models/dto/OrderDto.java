@@ -14,6 +14,7 @@ public record OrderDto(
     OrderStatus status,
     List<ItemDto> items,
     String description,
-    String sellerDescription
+    String sellerDescription,
+    Long tips
 ) {
 }

@@ -1,10 +1,8 @@
 package delivery.models.items;
 
-
-import delivery.models.orders.Seller;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "item_seller_pool")
@@ -23,9 +21,8 @@ public class ItemSellerPool {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @ManyToOne
-    @JoinColumn(name = "store_id")
-    private Seller seller;
+    @Column(name = "seller_id")
+    private long sellerId;
 
     @Column(nullable = false)
     private int count;

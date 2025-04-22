@@ -2,7 +2,7 @@ package delivery.models.orders;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @ToString
 @Entity
@@ -38,4 +38,7 @@ public class Order {
 
     @Column(name = "seller_description")
     private String sellerDescription;
+
+    @Column(name = "tips")
+    private Long tips;
 }

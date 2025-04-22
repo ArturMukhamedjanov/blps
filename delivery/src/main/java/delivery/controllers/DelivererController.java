@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -63,7 +63,7 @@ public class DelivererController {
                 orderOpt.isEmpty() ||
                 orderOpt.get().getStatus() != OrderStatus.SET_TO_DELIVERER ||
                 delivererOpt.isEmpty() ||
-                orderOpt.get().getDeliverer() != delivererOpt.get()
+                orderOpt.get().getDeliverer().getId() != delivererOpt.get().getId()
         ){
             return ResponseEntity.notFound().build();
         }
@@ -93,7 +93,7 @@ public class DelivererController {
                 orderOpt.isEmpty() ||
                 orderOpt.get().getStatus() != OrderStatus.SET_TO_DELIVERER ||
                 deliverer.isEmpty() ||
-                orderOpt.get().getDeliverer() != deliverer.get()
+                orderOpt.get().getDeliverer().getId() != deliverer.get().getId()
         ){
             return ResponseEntity.notFound().build();
         }
@@ -111,7 +111,7 @@ public class DelivererController {
                 orderOpt.isEmpty() ||
                 orderOpt.get().getStatus() != OrderStatus.ACCEPTED_BY_DELIVERER ||
                 deliverer.isEmpty() ||
-                orderOpt.get().getDeliverer() != deliverer.get()
+                orderOpt.get().getDeliverer().getId() != deliverer.get().getId()
         ){
             return ResponseEntity.notFound().build();
         }
@@ -129,7 +129,7 @@ public class DelivererController {
                 orderOpt.isEmpty() ||
                         orderOpt.get().getStatus() != OrderStatus.RECEIVED_BY_DELIVERER ||
                         delivererOpt.isEmpty() ||
-                        orderOpt.get().getDeliverer() != delivererOpt.get()
+                        orderOpt.get().getDeliverer().getId() != delivererOpt.get().getId()
         ) {
             return ResponseEntity.notFound().build();
         }

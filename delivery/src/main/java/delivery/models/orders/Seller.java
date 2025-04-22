@@ -1,9 +1,8 @@
 package delivery.models.orders;
 
-import delivery.models.orders.auth.User;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "sellers")

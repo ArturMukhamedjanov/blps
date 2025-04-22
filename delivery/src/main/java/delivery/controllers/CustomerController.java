@@ -93,7 +93,7 @@ public class CustomerController {
             }
             var itemOrderPool = ItemOrderPool.builder()
                     .order(order)
-                    .item(item.get())
+                    .itemId(item.get().getId())
                     .count(itemDto.count())
                     .build();
             itemOrderPoolService.save(itemOrderPool);
@@ -101,6 +101,22 @@ public class CustomerController {
         var orderDto = orderMapper.mapToDto(order).toBuilder().items(orderDtos.items()).build();
         return ResponseEntity.ok(orderDto);
 
+    }
+
+    @PostMapping("/order/tips/{order_id}")
+    public ResponseEntity<Void> acceptOrder(@PathVariable("order_id") Long orderId, @RequestBody OrderDto orderDto){
+        var customer = customerService.getCustomerByUser(authenticationService.getCurrentUser());
+        var orderOpt = orderService.findById(orderId);
+        if(orderOpt.isEmpty() || customer.isEmpty() || orderOpt.get().getCustomer().getId() != customer.get().getId()){
+            return ResponseEntity.notFound().build();
+        }
+        if(orderDto.tips() == null || orderDto.tips() <= 0){
+            return ResponseEntity.badRequest().build();
+        }
+        var order = orderOpt.get();
+        order.setTips(orderDto.tips());
+        orderService.save(order);
+        return ResponseEntity.ok().build();
     }
 
     public Customer mergeCustomers(Customer oldCustomer, CustomerDto newCustomer){

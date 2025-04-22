@@ -1,9 +1,6 @@
 package delivery.models.orders;
 
-import javax.persistence.*;
-
-import delivery.models.orders.auth.User;
-
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity

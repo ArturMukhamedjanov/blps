@@ -5,9 +5,11 @@ import delivery.models.orders.Deliverer;
 import delivery.models.orders.Order;
 import delivery.models.orders.Seller;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface OrderRepo extends JpaRepository<Order, Long> {
     List<Order> getOrdersByCustomer(Customer customer);
     List<Order> getOrdersBySeller(Seller seller);

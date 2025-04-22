@@ -2,7 +2,7 @@ package delivery.models.items;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "items")

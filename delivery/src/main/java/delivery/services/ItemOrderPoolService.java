@@ -21,11 +21,11 @@ public class ItemOrderPoolService {
     }
 
     public List<ItemOrderPool> getItemPoolsByItem(Item item) {
-        return itemOrderPoolRepo.getItemOrderPoolsByItem(item);
+        return itemOrderPoolRepo.getItemOrderPoolsByItemId(item.getId());
     }
 
     public Optional<ItemOrderPool> findByOrderAndItem(Order order, Item item) {
-        return itemOrderPoolRepo.findByOrderAndItem(order, item);
+        return itemOrderPoolRepo.findByOrderAndItemId(order, item.getId());
     }
 
     public ItemOrderPool save(ItemOrderPool itemOrderPool) {

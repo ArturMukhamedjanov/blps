@@ -4,7 +4,7 @@ package delivery.models.orders;
 import delivery.models.items.Item;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "item_order_pool")
@@ -23,9 +23,8 @@ public class ItemOrderPool {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "item_id")
-    private Item item;
+    @Column(name = "item_id")
+    private long itemId;
 
     @Column(nullable = false)
     private int count;

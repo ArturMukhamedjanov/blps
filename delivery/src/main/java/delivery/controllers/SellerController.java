@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.validation.Valid;
+import jakarta.servlet.http.Cookie;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -77,7 +77,7 @@ public class SellerController {
         }
         var itemPool = ItemSellerPool.builder()
                 .item(item.get())
-                .seller(seller.get())
+                .sellerId(seller.get().getId())
                 .count(itemDto.count())
                 .price(itemDto.price())
                 .build();
@@ -114,7 +114,7 @@ public class SellerController {
     public ResponseEntity<Void> rejectOrder(@PathVariable("order_id") Long orderId){
         var seller = sellerService.getSellerByUser(authenticationService.getCurrentUser());
         var orderOpt = orderService.findById(orderId);
-        if(orderOpt.isEmpty() || orderOpt.get().getStatus() != OrderStatus.CREATED || seller.isEmpty() || orderOpt.get().getSeller() != seller.get()){
+        if(orderOpt.isEmpty() || orderOpt.get().getStatus() != OrderStatus.CREATED || seller.isEmpty() || orderOpt.get().getSeller().getId() != seller.get().getId()){
             return ResponseEntity.notFound().build();
         }
         var order = orderOpt.get();
@@ -127,7 +127,7 @@ public class SellerController {
     public ResponseEntity<Void> acceptOrder(@PathVariable("order_id") Long orderId){
         var seller = sellerService.getSellerByUser(authenticationService.getCurrentUser());
         var orderOpt = orderService.findById(orderId);
-        if(orderOpt.isEmpty() || orderOpt.get().getStatus() != OrderStatus.CREATED || seller.isEmpty() || orderOpt.get().getSeller() != seller.get()){
+        if(orderOpt.isEmpty() || orderOpt.get().getStatus() != OrderStatus.CREATED || seller.isEmpty() || orderOpt.get().getSeller().getId() != seller.get().getId()){
             return ResponseEntity.notFound().build();
         }
         var order = orderOpt.get();

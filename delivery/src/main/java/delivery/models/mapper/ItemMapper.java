@@ -2,12 +2,17 @@ package delivery.models.mapper;
 
 import delivery.models.items.Item;
 import delivery.models.orders.ItemOrderPool;
+import delivery.repositories.items.ItemRepo;
+import lombok.RequiredArgsConstructor;
 import delivery.models.items.ItemSellerPool;
 import delivery.models.dto.ItemDto;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ItemMapper {
+
+    private final ItemRepo itemRepo;
 
     // Преобразование из DTO в модель Item
     public Item mapFromDto(ItemDto dto) {
@@ -40,9 +45,10 @@ public class ItemMapper {
     }
 
     public ItemDto mapToDto(ItemOrderPool itemOrderPool){
+        var item = itemRepo.findById(itemOrderPool.getItemId());
         return ItemDto.builder()
-                .id(itemOrderPool.getItem().getId())
-                .name(itemOrderPool.getItem().getName())
+                .id(itemOrderPool.getId())
+                .name(item.map(Item::getName).orElse(""))
                 .count(itemOrderPool.getCount())
                 .build();
     }
