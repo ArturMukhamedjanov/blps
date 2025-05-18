@@ -161,7 +161,7 @@ public class ItemSellerPoolService {
             } catch (Exception e) {
                 log.error("Error in update: {}", e.getMessage());
                 status.setRollbackOnly();
-                return false;
+                throw e;
             }
         });
     }

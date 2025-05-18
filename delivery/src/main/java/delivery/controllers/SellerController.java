@@ -185,13 +185,8 @@ public class SellerController {
         }
         var order = orderOpt.get();
         order.setStatus(OrderStatus.PACKED);
-        var deliverer = setDeliverer(order);
-        if(deliverer.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        order.setDeliverer(deliverer.get());
-        order.setStatus(OrderStatus.SET_TO_DELIVERER);
         orderService.save(order);
+        orderService.sendOrderAssembledEvent(orderMapper.mapToDto(order));
         return ResponseEntity.ok().build();
     }
 

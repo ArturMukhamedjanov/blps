@@ -36,6 +36,7 @@ D:\studyng\3 year\了涎\blps\delivery\src\main\java\delivery\models\orders\auth\R
 D:\studyng\3 year\了涎\blps\delivery\src\main\java\delivery\DeliveryApplication.java
 D:\studyng\3 year\了涎\blps\delivery\src\main\java\delivery\models\dto\ItemDto.java
 D:\studyng\3 year\了涎\blps\delivery\src\main\java\delivery\services\UserService.java
+D:\studyng\3 year\了涎\blps\delivery\src\main\java\delivery\configs\JmsConfig.java
 D:\studyng\3 year\了涎\blps\delivery\src\main\java\delivery\controllers\DelivererController.java
 D:\studyng\3 year\了涎\blps\delivery\src\main\java\delivery\models\mapper\DelivererMapper.java
 D:\studyng\3 year\了涎\blps\delivery\src\main\java\delivery\services\ItemSellerPoolService.java

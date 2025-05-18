@@ -45,6 +45,7 @@ delivery\services\OrderService.class
 delivery\models\dto\DelivererDto$DelivererDtoBuilder.class
 delivery\models\items\ItemSellerPool$ItemSellerPoolBuilder.class
 delivery\models\orders\User$UserBuilder.class
+delivery\configs\JmsConfig.class
 delivery\models\orders\Seller$SellerBuilder.class
 delivery\controllers\DelivererController.class
 delivery\models\orders\Seller.class

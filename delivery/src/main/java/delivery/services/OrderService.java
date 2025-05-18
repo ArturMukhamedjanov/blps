@@ -1,11 +1,14 @@
 package delivery.services;
 
+import delivery.models.dto.OrderDto;
 import delivery.models.orders.Customer;
 import delivery.models.orders.Deliverer;
 import delivery.models.orders.Order;
 import delivery.models.orders.Seller;
 import delivery.repositories.orders.OrderRepo;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +17,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
+    
+    private static final String ORDER_ASSEMBLED_QUEUE = "order.assembled.queue";
 
     private final OrderRepo orderRepo;
+    private final JmsTemplate jmsTemplate;
 
     public List<Order> getOrdersByCustomer(Customer customer) {
         return orderRepo.getOrdersByCustomer(customer);
@@ -55,5 +61,10 @@ public class OrderService {
 
     public Optional<Order> findById(Long id) {
         return orderRepo.findById(id);
+    }
+
+    public void sendOrderAssembledEvent(OrderDto orderId) {
+        System.out.println(orderId.id() + " was send to RabbitMQ");
+        jmsTemplate.convertAndSend(ORDER_ASSEMBLED_QUEUE, orderId);
     }
 }

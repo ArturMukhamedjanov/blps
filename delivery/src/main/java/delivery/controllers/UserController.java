@@ -78,28 +78,6 @@ public class UserController {
         return ResponseEntity.ok(LoginResponse.builder().role(Role.SELLER).build());
     }
 
-    @PostMapping("/register/deliverer")
-    public ResponseEntity<LoginResponse> registerDeliverer(
-            @Valid @RequestBody DelivererDto delivererDto,
-            HttpServletResponse response
-    ){
-        if(!validDeliverer(delivererDto)){
-            return ResponseEntity.badRequest().body(null);
-        }
-        if(userService.getUserByEmail(delivererDto.email()).isPresent()){
-            return ResponseEntity.badRequest().body(null);
-        }
-        Deliverer deliverer = delivererMapper.mapFromDto(delivererDto);
-        deliverer.setFree(true);
-        var registerRequest = RegisterRequest.builder()
-                .email(delivererDto.email())
-                .password(delivererDto.password())
-                .build();
-        var authResponse = authenticationService.registerDeliverer(registerRequest, deliverer);
-        response.addCookie(createCookie(authResponse.getToken()));
-        return ResponseEntity.ok(LoginResponse.builder().role(Role.DELIVERER).build());
-    }
-
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(
             @RequestBody AuthenticationRequest authenticationRequest,

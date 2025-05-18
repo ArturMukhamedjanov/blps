@@ -1,0 +1,20 @@
+services:
+  rabbitmq:
+    build: .
+    ports:
+      - "24752:5672"  # AMQP порт
+      - "15672:15672" # Web-интерфейс
+    environment:
+      RABBITMQ_DEFAULT_USER: "user"
+      RABBITMQ_DEFAULT_PASS: "password"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+
+command: |
+  bash -c "rabbitmq-plugins enable rabbitmq_delayed_message_exchange && 
+           rabbitmq-plugins enable rabbitmq_jms_topic_exchange && 
+           rabbitmq-server"
+
+volumes:
+  rabbitmq-data:
+
