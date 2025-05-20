@@ -10,11 +10,6 @@ services:
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
 
-command: |
-  bash -c "rabbitmq-plugins enable rabbitmq_delayed_message_exchange && 
-           rabbitmq-plugins enable rabbitmq_jms_topic_exchange && 
-           rabbitmq-server"
-
 volumes:
   rabbitmq-data:
 

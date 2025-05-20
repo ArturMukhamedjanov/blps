@@ -19,6 +19,14 @@
         <java.version>17</java.version>
         <postgresql.version>42.2.20</postgresql.version>
     </properties>
+
+    <repositories>
+		<repository>
+			<id>dynomake.space</id>
+			<url>https://maven.dynomake.space/releases</url>
+		</repository>
+	</repositories>
+
     <dependencies>
 
         <!-- Security -->
@@ -96,6 +104,22 @@
             <groupId>com.rabbitmq.jms</groupId>
             <artifactId>rabbitmq-jms</artifactId>
             <version>3.4.0</version>
+        </dependency>
+
+        <dependency>
+			<groupId>space.dynomake</groupId>
+			<artifactId>yookassa-java-sdk</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.resource</groupId>
+            <artifactId>jakarta.resource-api</artifactId>
+            <version>2.0.0</version>
         </dependency>
          
 

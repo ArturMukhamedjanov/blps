@@ -1,6 +1,7 @@
 delivery\repositories\orders\CustomerRepo.class
 delivery\models\orders\Order$OrderBuilder.class
 delivery\models\dto\DelivererDto.class
+delivery\jca\YookassaManagedConnection.class
 delivery\services\SellerService.class
 delivery\models\mapper\OrderMapper.class
 delivery\repositories\items\ItemRepo.class
@@ -8,6 +9,7 @@ delivery\auth\AuthenticationResponse$AuthenticationResponseBuilder.class
 delivery\models\orders\Deliverer.class
 delivery\auth\AuthenticationRequest.class
 delivery\auth\RegisterRequest$RegisterRequestBuilder.class
+delivery\jca\YookassaConnectionFactory.class
 delivery\repositories\orders\OrderRepo.class
 delivery\models\orders\User.class
 delivery\models\items\Item.class
@@ -19,6 +21,7 @@ delivery\exceptions\ConvertionException.class
 delivery\models\dto\SellerDto$SellerDtoBuilder.class
 delivery\models\mapper\SellerMapper.class
 delivery\models\dto\OrderDto.class
+delivery\jca\YookassaConnection.class
 delivery\configs\ItemsDbConfig.class
 delivery\controllers\LoginResponse.class
 delivery\models\dto\CustomerDto.class
@@ -27,7 +30,9 @@ delivery\models\orders\Customer.class
 delivery\models\orders\Order.class
 delivery\repositories\orders\DelivererRepo.class
 delivery\controllers\LoginResponse$LoginResponseBuilder.class
+delivery\jca\YookassaManagedConnectionFactory.class
 delivery\models\orders\Customer$CustomerBuilder.class
+delivery\jca\YookassaAdapter.class
 delivery\configs\SecurityConfiguration.class
 delivery\models\dto\ItemDto$ItemDtoBuilder.class
 delivery\DeliveryApplication.class
@@ -59,11 +64,13 @@ delivery\auth\services\AuthenticationService.class
 delivery\controllers\UserController.class
 delivery\models\dto\OrderDto$OrderDtoBuilder.class
 delivery\configs\ApplicationConfig$1.class
+delivery\jca\ConnectorConfig.class
 delivery\auth\RegisterRequest.class
 delivery\models\items\ItemSellerPool.class
 delivery\configs\OrdersDbConfig.class
 delivery\auth\AuthenticationRequest$AuthenticationRequestBuilder.class
 delivery\models\mapper\CustomerMapper.class
 delivery\repositories\orders\UserRepo.class
+delivery\services\YookassaService.class
 delivery\models\orders\ItemOrderPool$ItemOrderPoolBuilder.class
 delivery\services\OrderBanningService.class

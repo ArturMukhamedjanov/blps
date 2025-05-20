@@ -1,6 +1,7 @@
 delivery\repositories\orders\CustomerRepo.class
 delivery\models\orders\Order$OrderBuilder.class
 delivery\models\dto\DelivererDto.class
+delivery\jca\YookassaManagedConnection.class
 delivery\services\SellerService.class
 delivery\models\mapper\OrderMapper.class
 delivery\repositories\items\ItemRepo.class
@@ -9,6 +10,7 @@ delivery\models\orders\Deliverer.class
 delivery\services\CustomerService.class
 delivery\auth\AuthenticationRequest.class
 delivery\auth\RegisterRequest$RegisterRequestBuilder.class
+delivery\jca\YookassaConnectionFactory.class
 delivery\repositories\orders\OrderRepo.class
 delivery\models\orders\User.class
 delivery\models\items\Item.class
@@ -23,6 +25,7 @@ delivery\models\dto\SellerDto$SellerDtoBuilder.class
 delivery\models\mapper\SellerMapper.class
 delivery\models\dto\OrderDto.class
 delivery\services\ItemSellerPoolService.class
+delivery\jca\YookassaConnection.class
 delivery\configs\ItemsDbConfig.class
 delivery\controllers\LoginResponse.class
 delivery\models\dto\CustomerDto.class
@@ -32,8 +35,10 @@ delivery\models\orders\Customer.class
 delivery\models\orders\Order.class
 delivery\repositories\orders\DelivererRepo.class
 delivery\controllers\LoginResponse$LoginResponseBuilder.class
+delivery\jca\YookassaManagedConnectionFactory.class
 delivery\models\orders\Customer$CustomerBuilder.class
 delivery\controllers\SellerController.class
+delivery\jca\YookassaAdapter.class
 delivery\configs\SecurityConfiguration.class
 delivery\models\dto\ItemDto$ItemDtoBuilder.class
 delivery\DeliveryApplication.class
@@ -47,7 +52,6 @@ delivery\models\items\ItemSellerPool$ItemSellerPoolBuilder.class
 delivery\models\orders\User$UserBuilder.class
 delivery\configs\JmsConfig.class
 delivery\models\orders\Seller$SellerBuilder.class
-delivery\controllers\DelivererController.class
 delivery\models\orders\Seller.class
 delivery\models\dto\ItemDto.class
 delivery\models\orders\OrderStatus.class
@@ -65,6 +69,7 @@ delivery\auth\services\AuthenticationService.class
 delivery\controllers\UserController.class
 delivery\models\dto\OrderDto$OrderDtoBuilder.class
 delivery\configs\ApplicationConfig$1.class
+delivery\jca\ConnectorConfig.class
 delivery\controllers\CustomerController.class
 delivery\auth\RegisterRequest.class
 delivery\models\items\ItemSellerPool.class
@@ -72,4 +77,5 @@ delivery\configs\OrdersDbConfig.class
 delivery\auth\AuthenticationRequest$AuthenticationRequestBuilder.class
 delivery\models\mapper\CustomerMapper.class
 delivery\repositories\orders\UserRepo.class
+delivery\services\YookassaService.class
 delivery\models\orders\ItemOrderPool$ItemOrderPoolBuilder.class

@@ -27,6 +27,7 @@ public class CustomerController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
     private final CustomerMapper customerMapper;
+    private final YookassaService yookassaService;
 
 
     @GetMapping()
@@ -114,6 +115,11 @@ public class CustomerController {
             return ResponseEntity.badRequest().build();
         }
         var order = orderOpt.get();
+        try{
+            yookassaService.createNewPaymentFor(order);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
         order.setTips(orderDto.tips());
         orderService.save(order);
         return ResponseEntity.ok().build();
