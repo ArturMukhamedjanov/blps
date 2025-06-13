@@ -33,6 +33,8 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
+                    .requestMatchers("/camunda/**").permitAll()
+                    .requestMatchers("/engine-rest/**").permitAll()
                     .requestMatchers("/user/**").permitAll()
                     .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
                     .requestMatchers("/seller/**").hasAuthority("SELLER")
