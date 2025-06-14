@@ -5,8 +5,6 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.atomikos.icatch.SysException;
-
 import delivery.auth.services.AuthenticationService;
 import delivery.models.dto.ItemDto;
 import delivery.models.dto.OrderDto;
