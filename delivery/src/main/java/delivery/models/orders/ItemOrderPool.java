@@ -1,6 +1,8 @@
 package delivery.models.orders;
 
 
+import java.io.Serializable;
+
 import delivery.models.items.Item;
 import lombok.*;
 
@@ -13,7 +15,7 @@ import jakarta.persistence.*;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemOrderPool {
+public class ItemOrderPool implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

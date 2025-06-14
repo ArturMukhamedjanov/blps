@@ -1,0 +1,74 @@
+{
+  "components": [
+    {
+      "text": "Форма заказа товаров",
+      "type": "text",
+      "id": "FormTitle",
+      "layout": {
+        "row": "Row_0"
+      }
+    },
+    {
+      "label": "ID продавца",
+      "type": "number",
+      "key": "seller_id",
+      "validate": {
+        "required": true,
+        "min": 1
+      },
+      "id": "Field_seller_id",
+      "layout": {
+        "row": "Row_1"
+      }
+    },
+    {
+      "label": "Товары",
+      "type": "dynamiclist",
+      "key": "products",
+      "id": "DynamicList_products",
+      "layout": {
+        "row": "Row_2"
+      },
+      "components": [
+        {
+          "label": "ID товара",
+          "type": "number",
+          "key": "product_id",
+          "validate": {
+            "required": true,
+            "min": 1
+          },
+          "id": "Field_product_id"
+        },
+        {
+          "label": "Количество",
+          "type": "number",
+          "key": "quantity",
+          "validate": {
+            "required": true,
+            "min": 1
+          },
+          "id": "Field_quantity"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "label": "Отправить",
+      "action": "submit",
+      "id": "SubmitButton",
+      "layout": {
+        "row": "Row_3"
+      }
+    }
+  ],
+  "type": "form",
+  "id": "order_form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.35.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.23.0",
+  "schemaVersion": 18
+}

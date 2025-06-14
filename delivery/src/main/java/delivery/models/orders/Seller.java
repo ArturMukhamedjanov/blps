@@ -2,6 +2,8 @@ package delivery.models.orders;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -11,7 +13,7 @@ import jakarta.persistence.*;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Seller {
+public class Seller implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

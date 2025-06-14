@@ -1,5 +1,6 @@
 package delivery.models.orders;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 

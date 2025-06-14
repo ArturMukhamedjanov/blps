@@ -16,6 +16,8 @@ import delivery.models.mapper.CustomerMapper;
 import delivery.services.UserService;
 import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.Cookie;
+
+import org.camunda.bpm.engine.RuntimeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +37,7 @@ public class UserController {
     private final DelivererMapper delivererMapper;
     private final UserService userService;
     private final AuthenticationService authenticationService;
+    private final RuntimeService runtimeService;
 
     @PostMapping("/register/customer")
     public ResponseEntity<LoginResponse> registerCustomer(
