@@ -30,32 +30,36 @@ public class UpdateOrderSellerTask implements JavaDelegate{
     
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        delegateExecution.setVariable("updated", false);
-        var order = (Order) delegateExecution.getVariable("order");
-        var seller = order.getSeller();
-        var customer = order.getCustomer();
-        Long itemId = (Long) delegateExecution.getVariable("item_id");
-        Integer itemCount = ((Long) delegateExecution.getVariable("item_count")).intValue();
-        List<ItemDto> itemsDto = List.of(new ItemDto(itemId, null, itemCount , null));
-        for(var itemDto : itemsDto){
-            if(itemDto.id() == null){
-                return;
+        try{
+            delegateExecution.setVariable("updated", false);
+            var order = (Order) delegateExecution.getVariable("order");
+            var seller = order.getSeller();
+            var customer = order.getCustomer();
+            Long itemId = (Long) delegateExecution.getVariable("item_id");
+            Integer itemCount = ((Long) delegateExecution.getVariable("item_count")).intValue();
+            List<ItemDto> itemsDto = List.of(new ItemDto(itemId, null, itemCount , null));
+            for(var itemDto : itemsDto){
+                if(itemDto.id() == null){
+                    return;
+                }
+                if(itemDto.count() == null){
+                    return;
+                }
+                var item = itemService.findItemById(itemDto.id());
+                if(item.isEmpty()){
+                    return;
+                }
             }
-            if(itemDto.count() == null){
+            if(!itemSellerPoolService.update(itemsDto, seller, order)){
                 return;
-            }
-            var item = itemService.findItemById(itemDto.id());
-            if(item.isEmpty()){
-                return;
-            }
-        }
-        if(!itemSellerPoolService.update(itemsDto, seller, order)){
+            }    
+            order.setStatus(OrderStatus.UPDATED_BY_SELLER);
+            order = orderService.save(order);
+            delegateExecution.setVariable("order", order);
+            delegateExecution.setVariable("updated", true);
+        } catch (Exception e){
             return;
         }
-        order.setStatus(OrderStatus.UPDATED_BY_SELLER);
-        order = orderService.save(order);
-        delegateExecution.setVariable("order", order);
-        delegateExecution.setVariable("updated", true);
     }
 
 }
